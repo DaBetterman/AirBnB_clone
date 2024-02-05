@@ -1,4 +1,4 @@
-# 🇿🇦 0x00. AirBnB clone - The console 🌍
+# 🌍 0x00. AirBnB clone - The console 🌍
 
 This first step is very important because we will use what we build during this project with all other following projects: HTML/CSS templating, database storage, API, front-end integration…
 
