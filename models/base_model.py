@@ -1,39 +1,44 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 from datetime import datetime
+import models
 import uuid
 
 
 class BaseModel(object):
     """
-    This is the BaseModel class, providing
-    a common set of attributes
-    and methods for other classes.
+    BaseModel class providing common attributes and methods.
 
     Attributes:
-        id (str): A unique identifier generated
-        using uuid.uuid4().
-        created_at (datetime): The date and time
-        when an instance is created.
-        updated_at (datetime): The date and time
-        when an instance is created or updated.
-
-    Methods:
-        __init__(): Initializes a new instance
-        of the BaseModel class.
-        __str__(): Returns a string representation
-        of the BaseModel instance.
-        save(): Updates the 'updated_at' attribute
-        with the current date and time.
-        to_dict(): Converts the BaseModel instance
-        to a dictionary for serialization.
+        id (str): Unique identifier for each instance.
+        created_at (datetime): Date and time of instance creation.
+        updated_at (datetime): Date and time of last instance update.
     """
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """
-        Initializes a new instance of the BaseModel class.
+            Initializes a new instance of the BaseModel class.
+
+        Args:
+            *args: Not used.
+            **kwargs: Used to initialize instance attributes.
         """
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+
+        if kwargs:
+            for key, value in kwargs.items():
+                if key != '__class__':
+                    if key in ['created_at', 'updated_at']:
+                        setattr(self, key,
+                                datetime.strptime(value,
+                                                  '%Y-%m-%dT%H:%M:%S.%f'))
+                    else:
+                        setattr(self, key, value)
+            if 'updated_at' not in kwargs:
+                self.updated_at = datetime.now()
+        else:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
+
+        models.storage.new(self)
 
     def __str__(self):
         """
@@ -49,6 +54,8 @@ class BaseModel(object):
         with the current date and time.
         """
         self.updated_at = datetime.now()
+        # storage.new(self)
+        models.storage.save()
 
     def to_dict(self):
         """
