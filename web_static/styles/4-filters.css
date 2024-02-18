@@ -1,0 +1,30 @@
+.container {
+    text-align: center;
+    max-width: 1000px;
+    margin: 30px auto;
+}
+
+button {
+    background-color: #FF5A5F;
+    color: #FFFFFF;
+    height: 48px;
+    width: 20%;
+    border: 0px;
+    border-radius: 4px;
+    margin: 11px 30px;
+    font-size: 18px;
+    float: right;
+}
+
+button:hover {
+    opacity: 90%;
+    transition: 0.1s ease;
+}
+
+.filters {
+    background-color: white;
+    height: 70px;
+    width: 100%;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+}
